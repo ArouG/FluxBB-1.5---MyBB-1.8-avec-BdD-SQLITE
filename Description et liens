@@ -1,0 +1,29 @@
+Objectif :
+
+passer d'un forum FluxBB avec une base de données SQLITE2 en forum MyBB avec une base de données SQLITE3
+
+Problèmes rencontrés :
+
+* Versions SQLITE : FluxBB (jusqu'à la version 1.5), ne sait pas gérer des bases de données SQLITE 3
+  --> il faut donc transférer votre BdD sqlite2 -> sqlite3
+  
+* MERGE SYSTEM, l'outil d'importation développé par le staff MyBB (1.8), ne gère ni les avatars ni les Messages Privés
+  --> avatars.php permet, après upload des fichiers avatars sur le répertoire ./uploads/avatars du nouveau forum de renseigner les informations concernant
+      les avatars dans la table USERS de la nouvelle base de données,
+  --> transmess.php permet de récupérer les messages privés de votre ancienne base de données FluxBB vers votre nouvelle base de données.
+      Ce transfert sera effectué à partir de la base FluxBB convertie en SQLITE 3 
+      
+* autres problèmes rencontrés : récupération des BBCodes Topic, Post, Forum issus de FluxBB
+  --> ATTENTION, lors de la création de votre forum MyBB, deux forums sont créés automatiquement 'My Category' et 'My Forum'.
+      Il faut donc ne pas oublier d'effacer ces deux forums avant MERGE SYSTEM si vous comptez rétablir les liens Forums
+      
+      
+PROCESS :
+
+1 - Création nouveau forum avec outil install de MyBB
+2 - transformer votre base de données sqlite2 en sqlite3 avec transfert.php (https://github.com/ArouG/PHP-SQLite-2-3),
+3 - suppression des 2 forums créés lors de l'installation du nouveau forum (soit par l'intermédiaire de l'outil admin, soit par suppression directe dans base de données / table forums),
+4 - MERGE SYSTEM pour récupérer vos données à partir de la base sqlite3 obtenue à l'étape 2, après patchs (http://community.mybb.com/thread-159765.html),
+5 - récupération de vos messages privés (toujours à partir de la base sqlite3) avec transmess.php (https://github.com/ArouG/PHP-Mess-FluxBB--MyBB),
+6 - transfert de vos avatars de l'ancien forum vers ./uploads/avatars de MyBB,
+7 - intégration de vos avatars avec avatars.php (https://github.com/ArouG/PHP-avatars-FluxBB--MyBB-sqlite3-)
