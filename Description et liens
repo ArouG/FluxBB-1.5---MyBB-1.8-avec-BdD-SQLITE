@@ -27,3 +27,6 @@ PROCESS :
 5 - récupération de vos messages privés (toujours à partir de la base sqlite3) avec transmess.php (https://github.com/ArouG/PHP-Mess-FluxBB--MyBB),
 6 - transfert de vos avatars de l'ancien forum vers ./uploads/avatars de MyBB,
 7 - intégration de vos avatars avec avatars.php (https://github.com/ArouG/PHP-avatars-FluxBB--MyBB-sqlite3-)
+8 - prise en compte des anciens liens natifs de FluxBB ([user=uid]...[/user], [forum=fid]...[/forum], [topic=tid]...[/topic] et [post=pid]...[/post] compte tenu de la non correspondance entre enciens id et nouveaux ids) (https://github.com/ArouG/PHP-FluxBB-MyBB-sqlite-cleaner-old-links) 
+
+nota : sans aucune incidence sue le processus d'importation, ne pas oublier d'applique le patch 'Rand/Random' (http://community.mybb.com/thread-159906.html) permettant l'enregistrement de nouveaux membres
